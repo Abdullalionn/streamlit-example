@@ -1,38 +1,27 @@
-from collections import namedtuple
-import altair as alt
-import math
-import pandas as pd
 import streamlit as st
+from bardapi import Bard
+import os
 
-"""
-# Welcome to Streamlit!
+os.environ["_BARD_API_KEY"] = "YAgjeMPVabFgw6DJFnFsesPrDxnRBc9ls8M8OlkmKca_7R06wa9TcIzyzr3dp9OOadNpcg."
+st.header("Abozekry's AI")
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
+prompt = st.text_input('', 'Enter a prompt')
 
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
+def open_exe(exe_path):
+  os.startfile(exe_path)
 
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
+if "sublime" in message:
+    open_exe("C:\\Program Files\\Sublime Text 3\\sublime_text.exe")
+    print("opening sublime")
+elif "vs" in message:
+    open_exe('C:\\Users\\lenovo\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe')
+    print("opening visual studios code")
+elif "pycharm" in message:
+    open_exe("C:\\Program Files\\JetBrains\\PyCharm Community Edition 2022.3.3\\bin\\pycharm64.exe")
+    print("PyCharm")
+elif "qtd" in message:
+    open_exe()
+else:
+    st.text((Bard().get_answer(str(prompt))['content']))
 
-
-with st.echo(code_location='below'):
-    total_points = st.slider("Number of points in spiral", 1, 5000, 2000)
-    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
-
-    Point = namedtuple('Point', 'x y')
-    data = []
-
-    points_per_turn = total_points / num_turns
-
-    for curr_point_num in range(total_points):
-        curr_turn, i = divmod(curr_point_num, points_per_turn)
-        angle = (curr_turn + 1) * 2 * math.pi * i / points_per_turn
-        radius = curr_point_num / total_points
-        x = radius * math.cos(angle)
-        y = radius * math.sin(angle)
-        data.append(Point(x, y))
-
-    st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
-        .mark_circle(color='#0068c9', opacity=0.5)
-        .encode(x='x:Q', y='y:Q'))
+#print(Bard().get_answer(str(message))['content'])
